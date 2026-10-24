@@ -1,0 +1,55 @@
+# Build artifacts
+build/
+bin/
+*.o
+*.a
+*.so
+*.out
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Runtime data
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/*.state
+*.pid
+*.log
+
+# Secrets and environment files
+.env
+*.env
+!*.env.example
+
+# TLS private/local material
+certs/*.key
+certs/*.pem
+certs/*.p12
+certs/*.pfx
+certs/server.crt
+
+# Backup files
+*.bak
+*.bak_*
+*.backup
+*.old
+*~
+
+# Large third-party models
+image_processing/models/*.caffemodel
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+
+# Certificate backups
+certs/backups/

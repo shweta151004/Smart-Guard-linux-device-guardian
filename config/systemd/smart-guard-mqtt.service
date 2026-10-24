@@ -1,0 +1,34 @@
+[Unit]
+Description=Smart Guard MQTT Client
+Wants=network-online.target
+Requires=mosquitto.service smart-guard.service
+After=network-online.target mosquitto.service smart-guard.service
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=smartguard
+Group=smartguard
+WorkingDirectory=/opt/smart-guard
+EnvironmentFile=/etc/smart-guard/mqtt.env
+ExecStartPre=/usr/bin/test -x /opt/smart-guard/bin/smart_guard_mqtt
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/certs/server.crt
+ExecStart=/opt/smart-guard/bin/smart_guard_mqtt
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillSignal=SIGTERM
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

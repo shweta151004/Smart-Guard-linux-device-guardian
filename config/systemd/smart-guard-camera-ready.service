@@ -1,0 +1,8 @@
+[Unit]
+Description=Smart Guard Camera Readiness
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'i=0; while [ "$i" -lt 30 ]; do if [ -c /dev/video0 ] && [ -r /dev/video0 ] && [ -w /dev/video0 ]; then exit 0; fi; i=$((i + 1)); sleep 1; done; echo "Camera /dev/video0 was not ready after 30 seconds" >&2; exit 1'
+RemainAfterExit=yes

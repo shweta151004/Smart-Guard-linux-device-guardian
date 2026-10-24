@@ -1,0 +1,36 @@
+[Unit]
+Description=Smart Guard FastAPI Swagger Layer
+Wants=network-online.target
+Requires=smart-guard.service
+After=network-online.target smart-guard.service
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=smartguard
+Group=smartguard
+WorkingDirectory=/opt/smart-guard
+Environment=PYTHONUNBUFFERED=1
+ExecStartPre=/usr/bin/test -x /opt/smart-guard/.venv/bin/uvicorn
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/api/swagger_app.py
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/certs/server.crt
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/certs/server.key
+ExecStart=/opt/smart-guard/.venv/bin/uvicorn api.swagger_app:app --host 127.0.0.1 --port 9443 --ssl-certfile /opt/smart-guard/certs/server.crt --ssl-keyfile /opt/smart-guard/certs/server.key --workers 1
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+KillSignal=SIGTERM
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

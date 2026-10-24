@@ -1,0 +1,8 @@
+[Unit]
+Description=Smart Guard Delayed System Reboot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sleep 10
+ExecStart=/usr/bin/systemctl reboot
+TimeoutStartSec=30

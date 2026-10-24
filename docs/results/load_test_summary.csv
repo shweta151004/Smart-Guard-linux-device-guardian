@@ -1,0 +1,27 @@
+metric,value
+Baseline total requests,50
+Load total requests,4250
+Load successful HTTP 200 responses,4250
+Load success rate (%),100.000
+Load throughput (requests/second),141.177
+Baseline mean latency (ms),216.615
+Load mean latency (ms),216.139
+Mean latency increase (ms),-0.476
+Mean latency increase (%),-0.220
+Baseline P95 latency (ms),231.236
+Load P95 latency (ms),231.471
+P95 latency increase (ms),0.235
+Baseline average CPU usage (%),47.137
+Load average CPU usage (%),60.359
+Average CPU usage change (percentage points),13.222
+Maximum CPU usage change (percentage points),23.666
+Baseline average CPU temperature (C),57.636
+Load average CPU temperature (C),74.710
+Average CPU temperature change (C),17.073
+Maximum CPU temperature change (C),26.000
+Baseline average available memory (MB),19782.239
+Load average available memory (MB),19775.161
+Available memory change (MB),-7.078
+Estimated memory consumption increase (MB),7.078
+Recovery average CPU usage (%),48.107
+Recovery average CPU temperature (C),62.273

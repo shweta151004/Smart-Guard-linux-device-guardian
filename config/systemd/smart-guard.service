@@ -1,0 +1,45 @@
+[Unit]
+Description=Smart Guard Monitoring System
+Wants=network-online.target
+Requires=smart-guard-camera-ready.service
+After=network-online.target smart-guard-camera-ready.service
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=smartguard
+Group=smartguard
+SupplementaryGroups=video
+WorkingDirectory=/opt/smart-guard
+RuntimeDirectory=smart-guard
+RuntimeDirectoryMode=0755
+Environment=SMART_GUARD_HEARTBEAT_PATH=/run/smart-guard/frame_heartbeat
+Environment=HOME=/home/smartguard
+EnvironmentFile=-/etc/smart-guard/email.env
+EnvironmentFile=/etc/smart-guard/thermal.env
+EnvironmentFile=/etc/smart-guard/mqtt.env
+ExecStartPre=/usr/bin/test -x /opt/smart-guard/bin/embedded_monitor
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/web/index.html
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/certs/server.crt
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/certs/server.key
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/image_processing/models/MobileNetSSD_deploy.prototxt
+ExecStartPre=/usr/bin/test -r /opt/smart-guard/image_processing/models/MobileNetSSD_deploy.caffemodel
+ExecStart=/opt/smart-guard/bin/embedded_monitor
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+KillSignal=SIGTERM
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

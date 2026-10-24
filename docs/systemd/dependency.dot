@@ -1,0 +1,65 @@
+digraph SmartGuardSystemd {
+    rankdir=LR;
+
+    graph [
+        label="Smart Guard systemd Dependency Order",
+        labelloc="t",
+        fontsize=20
+    ];
+
+    node [
+        shape=box,
+        style="rounded",
+        fontsize=12
+    ];
+
+    boot [
+        label="System Boot\nmulti-user.target"
+    ];
+
+    filesystem [
+        label="local-fs.target"
+    ];
+
+    network [
+        label="network-online.target"
+    ];
+
+    camera [
+        label="smart-guard-camera-ready.service\nWait for /dev/video0"
+    ];
+
+    application [
+        label="smart-guard.service\nWeb Server + Camera + Image Processing\nHTTPS + Telemetry"
+    ];
+
+    mqtt [
+        label="smart-guard-mqtt.service\nAdded after MQTT implementation",
+        style="rounded,dashed"
+    ];
+
+    boot -> filesystem [
+        label="startup"
+    ];
+
+    boot -> network [
+        label="startup"
+    ];
+
+    filesystem -> camera [
+        label="After"
+    ];
+
+    camera -> application [
+        label="Requires + After"
+    ];
+
+    network -> application [
+        label="Wants + After"
+    ];
+
+    application -> mqtt [
+        label="future",
+        style=dashed
+    ];
+}
